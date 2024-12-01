@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "416491882956",
+    "project_id": "beable-5a816",
+    "storage_bucket": "beable-5a816.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416491882956:android:50501be4f4a462bb0fb569",
+        "android_client_info": {
+          "package_name": "com.example.beable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416491882956-nfboa6v2tfroibiijvmkubgsqpmpah0o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.beable",
+            "certificate_hash": "cd1f9af6253b6878c7dfb29d976e3657b5c0d959"
+          }
+        },
+        {
+          "client_id": "416491882956-ee0spjavugktf7kqgl3he6mai6fd9j1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRxYuBhKMC77f3WlHgK8udufDUiWkPnFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416491882956-ee0spjavugktf7kqgl3he6mai6fd9j1k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
