@@ -3,10 +3,8 @@ import 'package:beable/providers/toefl_vocabulary/tv_part1_level1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
 class tvquestion1 extends StatefulWidget {
-  tvquestion1({Key? key}) : super(key: key);
+  const tvquestion1({super.key});
 
   @override
   State<tvquestion1> createState() => _tvquestion1State();
@@ -19,17 +17,19 @@ class _tvquestion1State extends State<tvquestion1> {
   bool isPlaying = false;
   String currentTime = "00:00";
   String completeTime = "00:00";
-  int second= 0;
-  Widget customRadioBorder(int index, {required String text, }) {
+  int second = 0;
+  Widget customRadioBorder(
+    int index, {
+    required String text,
+  }) {
     return Material(
       elevation: 7.0,
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
       child: InkWell(
         onTap: () {
-          context.read<Tv_Part1_Level1Info>().setTexts1(value1 : ('$index'));
+          context.read<Tv_Part1_Level1Info>().setTexts1(value1: ('$index'));
           setState(() => selected_step = index);
         },
-        
         child: Ink(
           decoration: BoxDecoration(
             border: Border.all(
@@ -47,14 +47,15 @@ class _tvquestion1State extends State<tvquestion1> {
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      text,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                      fontFamily: 'Century Gothic',
-                      fontSize: 20,
-                      color: selected_step == index ? Colors.blue : Colors.grey,)
-                    ),
+                    child: Text(text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Century Gothic',
+                          fontSize: 20,
+                          color: selected_step == index
+                              ? Colors.blue
+                              : Colors.grey,
+                        )),
                   ),
                 ),
               ),
@@ -64,31 +65,32 @@ class _tvquestion1State extends State<tvquestion1> {
       ),
     );
   }
-  
+
   Widget customaudioplayer({required String audio}) {
     player.setSourceAsset(audio);
 
     player.onDurationChanged.listen((Duration duration) {
       setState(() {
-        completeTime = '0${(duration.inSeconds/60).floor()}:${duration.inSeconds%60}';
+        completeTime =
+            '0${(duration.inSeconds / 60).floor()}:${duration.inSeconds % 60}';
       });
     });
-    player.onPositionChanged.listen((event) { 
+    player.onPositionChanged.listen((event) {
       setState(() {
         second = event.inSeconds;
-        currentTime = '0${event.inMinutes}:${second}';
+        currentTime = '0${event.inMinutes}:$second';
       });
-      if (second >=60){
+      if (second >= 60) {
         setState(() {
           second = event.inSeconds - 60;
-          currentTime = '0${event.inMinutes}:${second}';
+          currentTime = '0${event.inMinutes}:$second';
         });
-        }
+      }
     });
 
     return Material(
       color: Colors.transparent,
-      child:Column(
+      child: Column(
         children: <Widget>[
           Container(
               margin: EdgeInsets.only(top: 50),
@@ -117,8 +119,7 @@ class _tvquestion1State extends State<tvquestion1> {
                           });
                         } else {
                           player.resume();
-                          
-                          
+
                           print(player.getDuration());
                           print(player.getCurrentPosition());
                           setState(() {
@@ -141,17 +142,20 @@ class _tvquestion1State extends State<tvquestion1> {
                     },
                   ),
                   Text(
-                    "   " + currentTime,
+                    "   $currentTime",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    " | ",
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.w700),
+                    ),
                   ),
-                  Text(" | ",style: TextStyle(color: Colors.white,),),
                   Text(
                     completeTime,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w300),
+                        color: Colors.white, fontWeight: FontWeight.w300),
                   ),
                 ],
               )),
@@ -159,41 +163,46 @@ class _tvquestion1State extends State<tvquestion1> {
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
-  bool buttonaudio = false;
+    bool buttonaudio = false;
     return Column(
-        children: <Widget>[
-          Image.asset('assets/toefl_vocabulary/part1_level1/tv_question1.png',height: 200,
-            fit: BoxFit.contain),
-
-          customaudioplayer(audio:'toefl_vocabulary/part1_level1/tv_question1.mp3'),
-          SizedBox(height: 20,),
-          Title(
-            color: Colors.black, 
-            
-            child: Text("What is the woman's attitude towards unpaid internships ?",
-             textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Arial',
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                
-              ),
+      children: <Widget>[
+        Image.asset('assets/toefl_vocabulary/part1_level1/tv_question1.png',
+            height: 200, fit: BoxFit.contain),
+        customaudioplayer(
+            audio: 'toefl_vocabulary/part1_level1/tv_question1.mp3'),
+        SizedBox(
+          height: 20,
+        ),
+        Title(
+          color: Colors.black,
+          child: Text(
+            "What is the woman's attitude towards unpaid internships ?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Arial',
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
             ),
-            
           ),
-          SizedBox(height: 20),
-          customRadioBorder(1, text: "She is worried that the work will affect her journalism studies"),
-          SizedBox(height: 20),
-          customRadioBorder(2, text: "She feels that interns deserve payment for ther hard work"),  
-          SizedBox(height: 20),  
-          customRadioBorder(3, text: "She thinks that they are not as valuable as full-time positions"),
-          SizedBox(height: 20),
-          customRadioBorder(4, text: "She believes that they don't give valuable work experience"),
-         
-        ],
+        ),
+        SizedBox(height: 20),
+        customRadioBorder(1,
+            text:
+                "She is worried that the work will affect her journalism studies"),
+        SizedBox(height: 20),
+        customRadioBorder(2,
+            text: "She feels that interns deserve payment for ther hard work"),
+        SizedBox(height: 20),
+        customRadioBorder(3,
+            text:
+                "She thinks that they are not as valuable as full-time positions"),
+        SizedBox(height: 20),
+        customRadioBorder(4,
+            text: "She believes that they don't give valuable work experience"),
+      ],
     );
   }
 }

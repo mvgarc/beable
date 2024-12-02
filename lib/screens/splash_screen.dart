@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class splashScreen extends StatefulWidget {
-  splashScreen({Key? key}) : super(key: key);
+  const splashScreen({super.key});
 
   @override
   State<splashScreen> createState() => _splashScreenState();
@@ -16,52 +16,52 @@ class splashScreen extends StatefulWidget {
 
 class _splashScreenState extends State<splashScreen> {
   @override
-
-  void initState(){
+  void initState() {
     Future.delayed(
-      Duration(seconds: 3), 
-      ()=> Navigator.pushReplacement(
-        context, MaterialPageRoute(
-          builder: (context) => LoginScreen())));
+        Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginScreen())));
     super.initState();
   }
-    // our form key
+
+  // our form key
   final _formKey = GlobalKey<FormState>();
+  @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Color(0xFF0ABBB5), Colors.white ]
-          )),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [Color(0xFF0ABBB5), Colors.white])),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: Column(children: <Widget>[
               Spacer(),
               Center(
                 child: FractionallySizedBox(
                   widthFactor: .6,
                   child: Bounce(
+                    infinite: true,
                     child: FlutterLogo(size: 400),
-                    infinite: true,), 
+                  ),
                 ),
               ),
               Spacer(),
               CircularProgressIndicator(),
               Spacer(),
-              Text('Bienvenido / Welcome',
-              style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold, 
-                fontSize:20, ), ),
+              Text(
+                'Bienvenido / Welcome',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
               Spacer(),
             ]),
-        
-        
-        ),
-    ));
+          ),
+        ));
   }
 }

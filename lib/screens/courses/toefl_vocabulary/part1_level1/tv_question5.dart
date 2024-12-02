@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/toefl_vocabulary/tv_intro.dart';
 
-
 class tvquestion5 extends StatefulWidget {
-  tvquestion5({Key? key}) : super(key: key);
+  const tvquestion5({super.key});
 
   @override
   State<tvquestion5> createState() => _tvquestion5State();
@@ -19,17 +18,19 @@ class _tvquestion5State extends State<tvquestion5> {
   bool isPlaying = false;
   String currentTime = "00:00";
   String completeTime = "00:00";
-  int second= 0;
-  Widget customRadioBorder(int index, {required String text, }) {
+  int second = 0;
+  Widget customRadioBorder(
+    int index, {
+    required String text,
+  }) {
     return Material(
       elevation: 7.0,
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
       child: InkWell(
         onTap: () {
-          context.read<Tv_Part1_Level1Info>().setTexts5(value5 : ('$index'));
+          context.read<Tv_Part1_Level1Info>().setTexts5(value5: ('$index'));
           setState(() => selected_step = index);
         },
-        
         child: Ink(
           decoration: BoxDecoration(
             border: Border.all(
@@ -47,14 +48,15 @@ class _tvquestion5State extends State<tvquestion5> {
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      text,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                      fontFamily: 'Century Gothic',
-                      fontSize: 20,
-                      color: selected_step == index ? Colors.blue : Colors.grey,)
-                    ),
+                    child: Text(text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Century Gothic',
+                          fontSize: 20,
+                          color: selected_step == index
+                              ? Colors.blue
+                              : Colors.grey,
+                        )),
                   ),
                 ),
               ),
@@ -64,31 +66,32 @@ class _tvquestion5State extends State<tvquestion5> {
       ),
     );
   }
-  
+
   Widget customaudioplayer({required String audio}) {
     player.setSourceAsset(audio);
 
     player.onDurationChanged.listen((Duration duration) {
       setState(() {
-        completeTime = '0${(duration.inSeconds/60).floor()}:${duration.inSeconds%60}';
+        completeTime =
+            '0${(duration.inSeconds / 60).floor()}:${duration.inSeconds % 60}';
       });
     });
-    player.onPositionChanged.listen((event) { 
+    player.onPositionChanged.listen((event) {
       setState(() {
         second = event.inSeconds;
-        currentTime = '0${event.inMinutes}:${second}';
+        currentTime = '0${event.inMinutes}:$second';
       });
-      if (second >=60){
+      if (second >= 60) {
         setState(() {
           second = event.inSeconds - 60;
-          currentTime = '0${event.inMinutes}:${second}';
+          currentTime = '0${event.inMinutes}:$second';
         });
-        }
+      }
     });
 
     return Material(
       color: Colors.transparent,
-      child:Column(
+      child: Column(
         children: <Widget>[
           Container(
               margin: EdgeInsets.only(top: 50),
@@ -117,8 +120,7 @@ class _tvquestion5State extends State<tvquestion5> {
                           });
                         } else {
                           player.resume();
-                          
-                          
+
                           print(player.getDuration());
                           print(player.getCurrentPosition());
                           setState(() {
@@ -141,17 +143,20 @@ class _tvquestion5State extends State<tvquestion5> {
                     },
                   ),
                   Text(
-                    "   " + currentTime,
+                    "   $currentTime",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    " | ",
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.w700),
+                    ),
                   ),
-                  Text(" | ",style: TextStyle(color: Colors.white,),),
                   Text(
                     completeTime,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w300),
+                        color: Colors.white, fontWeight: FontWeight.w300),
                   ),
                 ],
               )),
@@ -159,41 +164,46 @@ class _tvquestion5State extends State<tvquestion5> {
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
-  bool buttonaudio = false;
+    bool buttonaudio = false;
     return Column(
-        children: <Widget>[
-          Image.asset('assets/toefl_vocabulary/part1_level1/tv_question5.png',height: 200,
-            fit: BoxFit.contain),
-
-          customaudioplayer(audio:'toefl_vocabulary/part1_level1/tv_question5.mp3'),
-          SizedBox(height: 20,),
-          Title(
-            color: Colors.black, 
-            
-            child: Text("Why does the professor mention Yellowstone and Toba ?",
-             textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Arial',
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                
-              ),
+      children: <Widget>[
+        Image.asset('assets/toefl_vocabulary/part1_level1/tv_question5.png',
+            height: 200, fit: BoxFit.contain),
+        customaudioplayer(
+            audio: 'toefl_vocabulary/part1_level1/tv_question5.mp3'),
+        SizedBox(
+          height: 20,
+        ),
+        Title(
+          color: Colors.black,
+          child: Text(
+            "Why does the professor mention Yellowstone and Toba ?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Arial',
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
             ),
-            
           ),
-          SizedBox(height: 20),
-          customRadioBorder(1, text: "To explain how scientists decide if a volcano is extinct"),
-          SizedBox(height: 20),
-          customRadioBorder(2, text: "To clarify that event extinct volcanoes cold erupt in the distant future"),  
-          SizedBox(height: 20),  
-          customRadioBorder(3, text: "To indicate some of the most active volcanoes in the world"),
-          SizedBox(height: 20),
-          customRadioBorder(4, text: "To give exmaples of dormant volcanoes that may become active"),
-         
-        ],
+        ),
+        SizedBox(height: 20),
+        customRadioBorder(1,
+            text: "To explain how scientists decide if a volcano is extinct"),
+        SizedBox(height: 20),
+        customRadioBorder(2,
+            text:
+                "To clarify that event extinct volcanoes cold erupt in the distant future"),
+        SizedBox(height: 20),
+        customRadioBorder(3,
+            text: "To indicate some of the most active volcanoes in the world"),
+        SizedBox(height: 20),
+        customRadioBorder(4,
+            text:
+                "To give exmaples of dormant volcanoes that may become active"),
+      ],
     );
   }
 }

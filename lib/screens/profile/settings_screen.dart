@@ -12,9 +12,8 @@ import 'package:provider/provider.dart';
 
 import '../../providers/login_provider.dart';
 
-
 class settingsScreen extends StatefulWidget {
-  settingsScreen({Key? key}) : super(key: key);
+  const settingsScreen({super.key});
 
   @override
   State<settingsScreen> createState() => _settingsScreenState();
@@ -25,78 +24,81 @@ class _settingsScreenState extends State<settingsScreen> {
   Widget build(BuildContext context) {
     loginFormInfo watch = context.watch<loginFormInfo>();
     var size = MediaQuery.of(context).size;
-        return Scaffold(
-          body: Stack(
-            children: <Widget>[
-              Container(
-                height: size.height * .3,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/settings/top_header.png'),
-                    alignment: Alignment.topCenter,
-                  ),
+    return Scaffold(
+      body: Stack(children: <Widget>[
+        Container(
+          height: size.height * .3,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/settings/top_header.png'),
+              alignment: Alignment.topCenter,
+            ),
+          ),
+        ),
+        Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(top: 80),
+              child: Text(
+                "Mi Perfil",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-          Column(
-            children: [
-              Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(top:80),
-                  child: Text(
-                    "Mi Perfil",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  profile_pic(
+                      userId: watch.uid, donwloadURL_user: watch.donwloadURL),
+                  SizedBox(height: 20),
+                  profileMenu(
+                    icon: Icons.person,
+                    text: "Mi Perfil",
+                    press: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => profileAccount(
+                                    userId: watch.uid,
+                                    email: watch.email,
+                                    firstname: watch.firstName,
+                                    lastname: watch.lastName,
+                                  )));
+                    },
                   ),
-                ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    profile_pic(userId:watch.uid, donwloadURL_user:watch.donwloadURL),
-                    SizedBox(height: 20),
-                    profileMenu(
-                      icon: Icons.person,
-                      text: "Mi Perfil",
-                      press: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => profileAccount(
-                          userId: watch.uid,
-                          email: watch.email,
-                          firstname: watch.firstName,
-                          lastname: watch.lastName,)));
-                      },
-                    ),
-                    SizedBox(height: 20),
-                    profile_notification(),
-                    SizedBox(height: 20),
-                    profileMenu(
-                      icon: Icons.help_outline,
-                      text: "Ayuda",
-                      press: () {
-
-                      },
-                    ),
-                    SizedBox(height: 15),
-                    profileMenu(
-                      icon: Icons.logout_outlined,
-                      text: "Cerrar sesión",
-                      press: () {logout(context);},
-                    ),
-                  
-                  ],
-                ),       
-              )
-           ],
-          ), 
-        ]
-      )
-        ,
+                  SizedBox(height: 20),
+                  profile_notification(),
+                  SizedBox(height: 20),
+                  profileMenu(
+                    icon: Icons.help_outline,
+                    text: "Ayuda",
+                    press: () {},
+                  ),
+                  SizedBox(height: 15),
+                  profileMenu(
+                    icon: Icons.logout_outlined,
+                    text: "Cerrar sesión",
+                    press: () {
+                      logout(context);
+                    },
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ]),
     );
   }
-  Future<void> logout(BuildContext context) async{
+
+  Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> LoginScreen()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 }
