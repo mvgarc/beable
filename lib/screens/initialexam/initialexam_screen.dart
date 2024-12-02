@@ -11,51 +11,60 @@ import 'package:provider/provider.dart';
 
 import '../../providers/initialform_provider.dart';
 
-class initialExam extends StatefulWidget {  
+class initialExam extends StatefulWidget {
+  const initialExam({super.key});
+
   @override
   State<initialExam> createState() => _initialExamState();
-
 }
 
 class _initialExamState extends State<initialExam> {
-  User? user= FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
-    void initState() {
+  @override
+  void initState() {
     super.initState();
     FirebaseFirestore.instance
-      .collection("users")
-      .doc(user!.uid)
-      .get()
-      .then((value){
-        this.loggedInUser = UserModel.fromMap(value.data());
-        setState((){});
-      });
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
   }
+
   @override
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
-  final TextEditingController question1Controller = new TextEditingController();
-  final TextEditingController question2Controller = new TextEditingController();
-  final TextEditingController question3Controller = new TextEditingController();
-  final TextEditingController question4Controller = new TextEditingController();
+  final TextEditingController question1Controller = TextEditingController();
+  final TextEditingController question2Controller = TextEditingController();
+  final TextEditingController question3Controller = TextEditingController();
+  final TextEditingController question4Controller = TextEditingController();
   int currentStep = 0;
 
-@override
+  @override
   Widget build(BuildContext context) {
     InitialFormInfo watch = context.watch<InitialFormInfo>();
     return Scaffold(
-      appBar: AppBar(title: Text("Bienvenido a BeAble", style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold, 
-        fontSize:20, ),), centerTitle: true,),
+      appBar: AppBar(
+        title: Text(
+          "Bienvenido a BeAble",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Stepper(
         type: StepperType.horizontal,
         steps: getSteps(),
         currentStep: currentStep,
-        
-        onStepContinue: (){
+        onStepContinue: () {
           final isLastStep = currentStep == getSteps().length - 1;
-          if (isLastStep){
+          if (isLastStep) {
             setState(() {
               question1Controller.text = watch.question1;
               question2Controller.text = watch.question2;
@@ -63,39 +72,43 @@ class _initialExamState extends State<initialExam> {
               question4Controller.text = watch.question4;
             });
             postDetailsToFirestore();
-          }else{
+          } else {
             setState(() => currentStep += 1);
           }
         },
-        onStepCancel: (){
-          if (currentStep > 0){
+        onStepCancel: () {
+          if (currentStep > 0) {
             setState(() => currentStep -= 1);
           }
         },
         controlsBuilder: (BuildContext context, ControlsDetails details) {
           final isLastStep = currentStep == getSteps().length - 1;
           return Container(
-            margin: EdgeInsets.only(top:50),
+            margin: EdgeInsets.only(top: 50),
             child: Row(
               children: [
-                if(currentStep !=0 )
+                if (currentStep != 0)
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: details.onStepCancel,
+                      child: Text('Atras',
+                          style: TextStyle(
+                            fontSize: 15,
+                          )),
+                    ),
+                  ),
+                const SizedBox(
+                  width: 12,
+                ),
                 Expanded(
                   child: ElevatedButton(
-                    child: Text('Atras',
-                    style: TextStyle(
-                    fontSize: 15,)),
-                    onPressed: details.onStepCancel,
+                    onPressed: details.onStepContinue,
+                    child: Text(isLastStep ? 'Enviar' : 'Siguiente',
+                        style: TextStyle(
+                          fontSize: 15,
+                        )),
                   ),
                 ),
-                const SizedBox(width: 12,),
-                Expanded(
-                  child: ElevatedButton(
-                    child: Text(isLastStep ? 'Enviar' : 'Siguiente',
-                    style: TextStyle(
-                    fontSize: 15,)),
-                    onPressed: details.onStepContinue,
-                  ),
-                ),    
               ],
             ),
           );
@@ -103,47 +116,41 @@ class _initialExamState extends State<initialExam> {
       ),
     );
   }
+
   List<Step> getSteps() => [
-    Step(
-      isActive: currentStep >= 0,
-      title: Text(''), 
-      content: Column(
-        children: <Widget>[
-          question1(),
-        ]
-    )),
+        Step(
+            isActive: currentStep >= 0,
+            title: Text(''),
+            content: Column(children: <Widget>[
+              question1(),
+            ])),
+        Step(
+            isActive: currentStep >= 1,
+            title: Text(''),
+            content: Column(
+              children: [
+                question2(),
+              ],
+            )),
+        Step(
+            isActive: currentStep >= 2,
+            title: Text(''),
+            content: Column(
+              children: <Widget>[
+                question3(),
+              ],
+            )),
+        Step(
+            isActive: currentStep >= 3,
+            title: Text(''),
+            content: Column(
+              children: <Widget>[
+                question4(),
+              ],
+            )),
+      ];
 
-    Step(
-      isActive: currentStep >= 1,
-      title: Text(''), 
-      content: Column(
-        children: [
-          question2(),
-        ],
-    )),
-
-    Step(
-      isActive: currentStep >= 2,
-      title: Text(''), 
-      content: Column(
-        children: <Widget>[
-          question3(),
-        ],
-    )),
-
-    Step(
-      isActive: currentStep >= 3,
-      title: Text(''), 
-      content: Column(
-        children: <Widget>[
-          question4(),
-          
-        ],
-      
-    )),
-  ];
-
-  postDetailsToFirestore() async{
+  postDetailsToFirestore() async {
     // calling our firestore
     // calling our user model
     // sending these values
@@ -158,18 +165,17 @@ class _initialExamState extends State<initialExam> {
     initialformModel.question2 = question2Controller.text;
     initialformModel.question3 = question3Controller.text;
     initialformModel.question4 = question4Controller.text;
-  
+
     await firebaseFirestore
-      .collection("initialforms")
-      .doc(user?.uid)
-      .set(initialformModel.toMap());
-    
+        .collection("initialforms")
+        .doc(user?.uid)
+        .set(initialformModel.toMap());
+
     await firebaseFirestore
-    .collection("users")
-    .doc(user?.uid)
-    .update({"levelTest" : 1});
+        .collection("users")
+        .doc(user?.uid)
+        .update({"levelTest": 1});
 
     Navigator.pushReplacementNamed(context, '/homescreen');
   }
 }
-

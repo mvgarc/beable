@@ -6,28 +6,26 @@ import 'package:beable/screens/courses/toefl_vocabulary/toefl_vocabulary.dart';
 import 'package:beable/screens/courses/university_vocabulary/university_vocabulary.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+
 class carouselHome extends StatefulWidget {
-  carouselHome({Key? key}) : super(key: key);
+  const carouselHome({super.key});
 
   @override
   State<carouselHome> createState() => _carouselHomeState();
 }
 
 class _carouselHomeState extends State<carouselHome> {
-
-  int _current = 0 ;
-  final List<String> images=[
+  int _current = 0;
+  final List<String> images = [
     'assets/dashboard/carouselhome/banner_general.png',
     'assets/dashboard/carouselhome/banner_toefl.png',
     'assets/dashboard/carouselhome/banner_university.png',
     'assets/dashboard/carouselhome/banner_animals.png',
     'assets/dashboard/carouselhome/banner_kitchen.png',
     'assets/dashboard/carouselhome/banner_program.png',
-
-
   ];
-  
-  final List<Widget>link=[
+
+  final List<Widget> link = [
     general_vocabulary(),
     toefl_vocabulary(),
     university_vocabulary(),
@@ -36,40 +34,40 @@ class _carouselHomeState extends State<carouselHome> {
     program_vocabulary(),
   ];
 
-  List<Widget> generateImagesTiles(){
-    return images.map((element)=> ClipRRect(
-        child: Image.asset(element,
-        fit: BoxFit.contain,
-        ),    
-      borderRadius: BorderRadius.circular(15.0),
-      
-      
-      
-    )).toList();
+  List<Widget> generateImagesTiles() {
+    return images
+        .map((element) => ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: Image.asset(
+                element,
+                fit: BoxFit.contain,
+              ),
+            ))
+        .toList();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      padding: (const EdgeInsets.only(top:30)),
+      padding: (const EdgeInsets.only(top: 30)),
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => link[_current])),
-            child: CarouselSlider(items: generateImagesTiles(),
-            options: CarouselOptions(
-              enlargeCenterPage: true,
-              autoPlay: true,
-              aspectRatio: 17/8,
-              
-              onPageChanged: (index, other){
-                setState(() {
-                  _current = index;
-                });
-              }
-            )),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => link[_current])),
+            child: CarouselSlider(
+                items: generateImagesTiles(),
+                options: CarouselOptions(
+                    enlargeCenterPage: true,
+                    autoPlay: true,
+                    aspectRatio: 17 / 8,
+                    onPageChanged: (index, other) {
+                      setState(() {
+                        _current = index;
+                      });
+                    })),
           ),
-          
         ],
       ),
     );

@@ -10,144 +10,157 @@ class profileAccount extends StatefulWidget {
   String? email;
   String? firstname;
   String? lastname;
-  profileAccount({Key? key,this.userId, this.email, this.firstname, this.lastname }) : super(key: key);
+  profileAccount(
+      {super.key, this.userId, this.email, this.firstname, this.lastname});
 
   @override
   State<profileAccount> createState() => _profileAccountState();
 }
 
 class _profileAccountState extends State<profileAccount> {
-  final firstNameEditingController = new TextEditingController();
-  final lastNameEditingController = new TextEditingController();
-  final emailEditingController = new TextEditingController();
+  final firstNameEditingController = TextEditingController();
+  final lastNameEditingController = TextEditingController();
+  final emailEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     firstNameEditingController.text = "${widget.firstname}";
     lastNameEditingController.text = "${widget.lastname}";
     emailEditingController.text = "${widget.email}";
     final FirstNameField = TextFormField(
-      autofocus: false,
-      controller: firstNameEditingController,
-      keyboardType: TextInputType.name,
-      validator: (value){
-        RegExp regex = new  RegExp(r'.{3,}$');
-        if(value!.isEmpty){
-          return("Por favor ingrese un nombre");
-        }
-        if(!regex.hasMatch(value)){
-          return("Por favor ingrese un nombre valido (Min. 3 Character)");
-        }
-        return null;
-      },
-      onSaved: (value){
-        firstNameEditingController.text = value!;
-      },
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        prefixIcon: Icon(Icons.account_circle),
-        contentPadding:EdgeInsets.fromLTRB(20, 15, 20, 15), 
-        hintText: "Nombre",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          ),
-      ));
-
-    // last name field 
-    final LastNameField = TextFormField(
-      autofocus: false,
-      controller: lastNameEditingController,
-      keyboardType: TextInputType.name,
-      validator: (value){
-        RegExp regex = new  RegExp(r'.{2,}$');
-        if(value!.isEmpty){
-          return("Por favor ingrese su apellido");
-        }
-        if(!regex.hasMatch(value)){
-          return("Por favor ingrese un apellido valido (Min. 2 Digitos)");
-        }
-        return null;
-      },
-      onSaved: (value){
-        lastNameEditingController.text = value!;
-      },
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        prefixIcon: Icon(Icons.account_circle),
-        contentPadding:EdgeInsets.fromLTRB(20, 15, 20, 15), 
-        hintText: "Apellido",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          ),
-      ));
-
-    // Email field 
-    final EmailField = TextFormField(
-      autofocus: false,
-      controller: emailEditingController,
-      keyboardType: TextInputType.emailAddress,
-      validator: (value){
-        if(value!.isEmpty){
-          return("Por favor ingrese un correo electrónico");
+        autofocus: false,
+        controller: firstNameEditingController,
+        keyboardType: TextInputType.name,
+        validator: (value) {
+          RegExp regex = RegExp(r'.{3,}$');
+          if (value!.isEmpty) {
+            return ("Por favor ingrese un nombre");
           }
-          // reg expression for email validation
-          if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-          .hasMatch(value)) {
-            return("Por favor ingrese un correo electrónico valido");
+          if (!regex.hasMatch(value)) {
+            return ("Por favor ingrese un nombre valido (Min. 3 Character)");
           }
           return null;
-      },
-      onSaved: (value){
-        emailEditingController.text = value!;
-      },
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        prefixIcon: Icon(Icons.mail),
-        contentPadding:EdgeInsets.fromLTRB(20, 15, 20, 15), 
-        hintText: "Correo electrónico",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+        },
+        onSaved: (value) {
+          firstNameEditingController.text = value!;
+        },
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.account_circle),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Nombre",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-      ));
+        ));
 
-      final refreshbutton = Material(
+    // last name field
+    final LastNameField = TextFormField(
+        autofocus: false,
+        controller: lastNameEditingController,
+        keyboardType: TextInputType.name,
+        validator: (value) {
+          RegExp regex = RegExp(r'.{2,}$');
+          if (value!.isEmpty) {
+            return ("Por favor ingrese su apellido");
+          }
+          if (!regex.hasMatch(value)) {
+            return ("Por favor ingrese un apellido valido (Min. 2 Digitos)");
+          }
+          return null;
+        },
+        onSaved: (value) {
+          lastNameEditingController.text = value!;
+        },
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.account_circle),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Apellido",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ));
+
+    // Email field
+    final EmailField = TextFormField(
+        autofocus: false,
+        controller: emailEditingController,
+        keyboardType: TextInputType.emailAddress,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return ("Por favor ingrese un correo electrónico");
+          }
+          // reg expression for email validation
+          if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+              .hasMatch(value)) {
+            return ("Por favor ingrese un correo electrónico valido");
+          }
+          return null;
+        },
+        onSaved: (value) {
+          emailEditingController.text = value!;
+        },
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.mail),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Correo electrónico",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ));
+
+    final refreshbutton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
       color: Color(0xFF0ABBB5),
       child: MaterialButton(
-        padding:EdgeInsets.fromLTRB(20, 15, 20, 15), 
-        minWidth: MediaQuery.of(context).size.width,
-        onPressed: () async {
-          FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-          await firebaseFirestore
-          .collection("users")
-          .doc(widget.userId)
-          .update({
-            "firstName" : firstNameEditingController.text,
-            "lastName" : lastNameEditingController.text,
-            "email" : emailEditingController.text,});
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          minWidth: MediaQuery.of(context).size.width,
+          onPressed: () async {
+            FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+            await firebaseFirestore
+                .collection("users")
+                .doc(widget.userId)
+                .update({
+              "firstName": firstNameEditingController.text,
+              "lastName": lastNameEditingController.text,
+              "email": emailEditingController.text,
+            });
             Fluttertoast.showToast(msg: "Cuenta actualizada correctamente)");
-            Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext context) => settingsScreen()));
-        },
-        child: Text("Actualizar" , textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16,
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        ),)
-      ),
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => settingsScreen()));
+          },
+          child: Text(
+            "Actualizar",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
     );
 
-     return Scaffold(
-      appBar: AppBar(title: Text("Mi Perfil", style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold, 
-        fontSize:20, ),), centerTitle: true,),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 45),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Mi Perfil",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: Center(
+            child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(children: <Widget>[
+                  SizedBox(height: 45),
                   FirstNameField,
                   SizedBox(height: 20),
                   LastNameField,
@@ -155,10 +168,6 @@ class _profileAccountState extends State<profileAccount> {
                   EmailField,
                   SizedBox(height: 20),
                   refreshbutton,
-            ]
-          )
-        )
-      )
-     );
+                ]))));
   }
 }
