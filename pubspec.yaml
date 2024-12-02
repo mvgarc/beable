@@ -28,8 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   animate_do: ^2.1.0
-  audioplayer: ^0.8.1
-  audioplayers: ^1.0.1
+  audioplayers: ^6.1.0
   build_runner: ^2.1.11
   carousel_slider: ^4.1.1
   cloud_firestore: ^3.1.17
